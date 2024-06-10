@@ -1,13 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:6001',
-        secure: false,
+        target: 'https://blogsite-1-t9dm.onrender.com', // Your backend URL
+        secure: false, // If the target is using HTTPS and you don't want to verify the SSL certificate
+        changeOrigin: true, // Needed for virtual hosted sites
       },
     },
   },

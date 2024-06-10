@@ -40,15 +40,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
-// Serve static files
-app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Ensure the path is correct
 
-// Handle client routing, return all requests to the client side
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html')); // Ensure the path is correct
-});
-
-// Error handling middleware
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';

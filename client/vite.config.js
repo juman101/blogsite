@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://blogsite-0amv.onrender.com',
+        target: 'http://localhost:6001',
         secure: false,
       },
     },

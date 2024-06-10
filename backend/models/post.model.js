@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 const postSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     content: {
@@ -28,6 +29,7 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
     },
   },
   { timestamps: true }

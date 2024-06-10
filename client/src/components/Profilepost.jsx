@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function PostCard({ post }) {
+export default function PostCardprofile({ post }) {
   const [authorName, setAuthorName] = useState('Unknown');
-  console.log("hi") ; console.log(post);
-
+  console.log("hi");
+console.log(post);
   useEffect(() => {
     const fetchAuthorName = async () => {
       try {
-        const res = await fetch(`/api/user/${post.userId}`); // Replace with your actual backend route for fetching user data
+        console.log(post);
+        const res = await fetch(`/api/user/user-by-post/${post}`); // Replace with your actual backend route for fetching user data
         const data = await res.json();
+        console.log("hi");
+        console.log(data);
         if (res.ok) {
           setAuthorName(data.username);
         } else {

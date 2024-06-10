@@ -23,8 +23,14 @@ const userSchema = new mongoose.Schema(
     },
     isAdmin: {
       type: Boolean,
-      default: true,
+      default: true,  
     },
+    posts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post',
+      },
+    ],
   },
   { timestamps: true }
 );

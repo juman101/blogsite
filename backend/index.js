@@ -8,41 +8,47 @@ import commentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import cors from 'cors';
+import helmet from 'helmet';
+
 dotenv.config();
 
-console.log(process.env.MONGO);
-
-mongoose
-  .connect(process.env.MONGO)
-  .then(() => {
-    console.log('MongoDb is connected');
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
+const app = express();
 const __dirname = path.resolve();
 
-const app = express();
-
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
+app.use(helmet());
 
-app.listen(process.env.PORT, () => {
-  console.log('Server is running on port 3000!');
-});
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('MongoDB is connected');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+  });
 
+// Routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
+// Serve static files
+app.use(express.static(path.join(__dirname, '../frontend/dist'))); // Ensure the path is correct
 
+// Handle client routing, return all requests to the client side
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html')); // Ensure the path is correct
 });
 
+// Error handling middleware
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';
@@ -51,4 +57,10 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

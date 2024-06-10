@@ -1,7 +1,7 @@
 import Post from '../models/post.model.js';
 import User from '../models/user.model.js'; // Make sure to import the User model
 import { errorHandler } from '../utils/error.js';
-
+import mongoose from 'mongoose';
 export const create = async (req, res, next) => {
   const { title, content } = req.body;
 

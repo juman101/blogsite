@@ -22,11 +22,11 @@ export default function FooterCom() {
               <Footer.Title title='About' />
               <Footer.LinkGroup col>
                 <Footer.Link
-                  href='https://www.100jsprojects.com'
+                  href='https://leetcode.com/u/jumand/'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  100 JS Projects
+                  100 coding problems 
                 </Footer.Link>
                 <Footer.Link
                   href='/about'
@@ -41,7 +41,7 @@ export default function FooterCom() {
               <Footer.Title title='Follow us' />
               <Footer.LinkGroup col>
                 <Footer.Link
-                  href='https://www.github.com/sahandghavidel'
+                  href='https://github.com/juman101'
                   target='_blank'
                   rel='noopener noreferrer'
                 >

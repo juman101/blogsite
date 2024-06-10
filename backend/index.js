@@ -8,38 +8,40 @@ import commentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import cors from 'cors';
-import helmet from 'helmet';
-
 dotenv.config();
 
-const app = express();
-const __dirname = path.resolve();
+console.log(process.env.MONGO);
 
-// Middleware
-app.use(express.json());
-app.use(cookieParser());
-app.use(cors());
-app.use(helmet());
-
-// Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGO)
   .then(() => {
-    console.log('MongoDB is connected');
+    console.log('MongoDb is connected');
   })
   .catch((err) => {
-    console.error('Error connecting to MongoDB:', err);
+    console.log(err);
   });
 
-// Routes
+const __dirname = path.resolve();
+
+const app = express();
+
+app.use(express.json());
+app.use(cookieParser());
+
+app.listen(process.env.PORT, () => {
+  console.log('Server is running on port 3000!');
+});
+
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -49,10 +51,4 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
-});
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
 });
